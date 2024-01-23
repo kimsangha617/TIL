@@ -17,6 +17,7 @@ Nginx에서 SSL 설정하려면 SSL 인증서 및 개인 키파일이 필요. �
 아래는 기존 Tomcat 에서 SSL이 설정되어 있고 Nginx를 Reverse Proxy로 사용할 경우의 설정 가이드라인이다.
 
 ***
+
 server {
     listen 443 ssl;
     server_name your_domain.com;
