@@ -16,7 +16,7 @@ Nginx에서 SSL 설정하려면 SSL 인증서 및 개인 키파일이 필요. �
 
 아래는 기존 Tomcat 에서 SSL이 설정되어 있고 Nginx를 Reverse Proxy로 사용할 경우의 설정 가이드라인이다.
 
-***
+```
 server {
     listen 443 ssl;
     server_name your_domain.com;
@@ -42,7 +42,8 @@ server {
     }
 	
 }
-***
+```
+
 여기서 `your_domain.com` 은 사용자 도메인으로 대체 되어야 한다. SSL 인증서 및 개인 키 파일의 경로도 실제 파일 경로로 변경해야 한다.
 
 * location ~* /(login|signin){ ...} : nginx 요청으로 login, signin URL 값이 들어오는 경우 해당 페이지로 라우팅
@@ -66,9 +67,9 @@ server.xml 파일에서 SSL Connector를 주석 처리하거나 제거한다.
 
 그리고 context.xml 파일에서 scheme 속성을 https에서 http로 변경.
 
-***
+```
 <Context ... scheme="http">
-***
+```
 
 3. Nginx와 Tomcat 통합 테스트
 설정 변경 후에는 Nginx와 Tomcat이 올바르게 통합되는지 확인하기 위해 테스트를 수행.
@@ -89,7 +90,7 @@ Nginx는 클라이언트로부터의 요청을 받아서 해당 요청을 백엔
 1. proxy_pass 설정
 `proxy_pass` 지시어를 사용하여 어느 백엔드 서버로 요청을 전달할지 지정한다. 이를 사용하여 Tomcat의 주소와 포트를 지정한다
 
-***
+```
 location / {
     proxy_pass http://tomcat_server:tomcat_port;
     proxy_set_header Host $host;
@@ -97,7 +98,7 @@ location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
 }
-***
+```
 
 여기서 `tomcat_server`는 Tomcat 서버의 호스트 이름이나 IP 주소, `tomcat_port`는 Tomcat이 리스닝하는 포트이다.
 
@@ -115,7 +116,7 @@ Nginx에서는 클라이언트와의 통신을 HTTPS로 설정하고, 백엔드 
 
 예를 들어, 톰캣의 애플리케이션이 http://tomcat_server:tomcat_port/myapp에 배포되어 있을 경우, Nginx 설정에서도 해당 경로를 고려하여 프록시 패스를 지정해야 한다.
 
-***
+```
 location /myapp/ {
     proxy_pass http://tomcat_server:tomcat_port;
     proxy_set_header Host $host;
@@ -123,4 +124,4 @@ location /myapp/ {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
 }
-***
+```
